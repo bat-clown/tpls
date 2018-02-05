@@ -4,8 +4,7 @@
       <div class="u-title f-cb">
         <h3><span class="f-ff2">个人设置</span></h3>
       </div>
-
-
+      
       <ul class="m-tabs f-cb">
         <todo-list v-for="(item,index) in list" :item="item" :key="index" :index="index"></todo-list>
       </ul>
@@ -14,7 +13,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
   import Vue from 'vue'
