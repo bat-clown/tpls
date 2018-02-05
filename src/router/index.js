@@ -16,7 +16,7 @@ export default new Router({
   routes: [
       {path:'',component:personalSetting}
      ,{path:'/update',component:personalSetting,children:[
-       {path:'/',component:baseSetting},
+       {path:'',component:baseSetting},
        {path:'/update/baseSetting',component:baseSetting},
        {path:'/update/privateSetting',component:privateSetting}]}
       ]

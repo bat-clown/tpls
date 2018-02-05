@@ -20,6 +20,8 @@ import './assets/js/jquery.js'
 // import headerBar from '@/components/headerBar'
 // Vue.component('header-bar',headerBar);
 
+
+
 Vue.config.productionTip = false;
 
 

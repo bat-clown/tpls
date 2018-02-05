@@ -6,11 +6,8 @@
       </div>
 
 
-      <ul class="m-tabs f-cb" @click="handle" @mouseover="add" @mouseout="remove">
-        <li :class="fst"><a :class="clf" href="http://127.0.0.1:8080/#/update/baseSetting"><em>基本设置</em></a></li>
-        <li><a :class="cls" href=""><em>绑定设置</em></a></li>
-        <li><a :class="clt" href="http://127.0.0.1:8080/#/update/privateSetting"><em>隐私设置</em></a></li>
-        <!--<todo-list></todo-list>-->
+      <ul class="m-tabs f-cb">
+        <todo-list v-for="(item,index) in list" :item="item" :key="index" :index="index"></todo-list>
       </ul>
 
       <router-view></router-view>
@@ -20,51 +17,69 @@
 
 
 <script>
+  import Vue from 'vue'
+  const Event = new Vue();
   export default{
     data(){
         return {
-          fst:'fst',
-          clf:'z-slt',
-          cls:'',
-          clt:''
-//            msg:'123'
+          list:['基本设置','绑定设置','隐私设置']
         }
     },
-//    components:{
-//      'todo-list':{
-//          template:'<li>{{msg}}</li>'
-//      }
-//    },
-    methods:{
-        handle(e){
-          if(e.target.parentNode.parentNode.className === 'fst'){
-            e.target.parentNode.parentNode.className += ''
-          }else{
-            let ele = document.querySelector('.m-tabs').childNodes;
-            for(let i = 0;i<ele.length;i++){
-                ele[i].className = '';
-//                console.log(ele[i].firstChild);
-              if(ele[i].firstChild !== null){
-                ele[i].firstChild.className = ''
+    components:{
+      'todo-list':{
+          template:'<li :class="fst"  @mouseover="over" @mouseout="out"><a :class="cls" @click.stop.prevent="change(det)"><em>{{item}}</em></a></li>',
+          data(){
+              return {
+                fst:'',
+                cls:'',
+                det:''
               }
-            }
-            e.target.parentNode.parentNode.className += 'fst';
-//            console.log(e.target.parentNode.parentNode);
-            e.target.parentNode.className += 'z-slt'
-          }
+          },
+        props:['item','index'],
+        created(){
+              if(this.index === 0){
+                this.fst = 'fst';
+                this.cls = 'z-slt';
+                this.det = '/update/baseSetting';
+              }else if(this.index === 2){
+                this.det = '/update/privateSetting';
+              }else if(this.index === 1){
+                  this.det = 'javascript:;';
+              }
         },
-        add(e){
-            if (e.target.parentNode.className === 'z-slt'){
+        mounted(){
+          Event.$on('do',(msg)=>{
+              this.fst = '';
+              this.cls = '';
+              if(this.index === msg){
+                  this.fst = 'fst';
+                  this.cls = 'z-slt';
+              }
+          })
+        },
+        methods:{
+              over(){
+                  if(this.cls === 'z-slt'){
 
-            }else{
-              e.target.parentNode.className += 's-slt';
-            }
-        },
-        remove(e){
-            if(e.target.parentNode.className !== 'z-slt'){
-              e.target.parentNode.className = ''
-            }
+                  }else{
+                      this.cls = 's-slt'
+                  }
+              },
+              out(){
+                  if(this.cls !== 'z-slt'){
+                         this.cls = ''
+                  }
+              },
+              change(des){
+                  if(this.fst === 'fst'){
+
+                  }else{
+                      Event.$emit("do",this.index);
+                      this.$router.push(des);
+                  }
+              },
         }
+      }
     }
   }
 </script>

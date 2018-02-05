@@ -243,6 +243,9 @@
             msgC:'北京市'
         }
     },
+    created(){
+
+    },
     methods:{
       open(e){
           if(e.target.nextElementSibling.style.display === 'none'){
